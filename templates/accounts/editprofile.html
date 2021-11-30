@@ -1,0 +1,172 @@
+{% extends 'accounts/profile.html' %}
+{% load static %}
+
+{% block profile %}
+
+
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .avatar-choose {
+        position: absolute;
+        z-index: 2;
+        top: 13%;
+        left: 29%;
+    }
+
+    .cameraIcon {
+        color: #4dff54 !important;
+        cursor: pointer;
+    }
+</style>
+<div class="container">
+    <div class="row gutters">
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <form action="{% url 'editProfile' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="account-settings">
+                                    <div class="user-profile">
+                                        <div
+                                            class="user-avatar d-flex align-items-center justify-content-center flex-direction-column">
+                                            {% if user.avatar %}
+                                            <img src="{{user.avatar.url}}" alt="{{user.first_name}}">
+                                            {% else %}
+                                            <img src="https://picsum.photos/90" alt="">
+                                            {% endif %}
+                                            <label class='avatar-choose' for="actual-btn">
+                                                <i class="material-icons cameraIcon">
+                                                    photo_camera
+                                                </i>
+                                            </label>
+                                            <input type="file" name="avatar" id="actual-btn" hidden accept="image/*">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h6 class="mb-3 text-light ">Edit Personal Details</h6>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fullName">First Name</label>
+                                    <input class="px-2 my-1 border border-success text-light" value={{user.first_name}}>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+
+                                <div class="form-group">
+                                    <label for="fullName">Last Name</label>
+                                    <input class="px-2 my-1 border border-success text-light" value={{user.last_name}}>
+                                </div>
+
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="eMail">Email</label>
+                                    <input class="px-2 my-1 border border-success text-light" value={{user.email}}>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="phone">Date of Birth</label>
+                                    <span class='d-flex'>
+                                        <input type='number' class="px-2  mx-1 my-1 border border-success text-light"
+                                            min='1' max='31' value={{user.date_of_birth.day}}>
+                                        <input type='number' class="px-2  mx-1 my-1 border border-success text-light"
+                                            min='1' max='12' value={{user.date_of_birth.month}}>
+                                        <input type='number' class="px-2  mx-1 my-1 border border-success text-light"
+                                            min='1900' max='2020' value={{user.date_of_birth.year}}>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="Street">links</label>
+                                    <span class="d-flex align-items-center  justify-content-center">
+                                        <i
+                                            class="fab facebook  p-2 fs-2 my-1 border border-success text-light fa-facebook"></i>
+                                        <input class="px-2 my-1 border border-success text-light" type="url"
+                                            oninvalid="this.setCustomValidity('Please Enter proper url including http or https')"
+                                            oninput="this.setCustomValidity('')" name="facebookLink" id="facebookLink"
+                                            placeholder="Facebook Link" value={{user.facebook_link}}>
+                                    </span>
+                                    <span class="d-flex align-items-center  justify-content-center">
+                                        <i
+                                            class="fab instagram  p-2 fs-2 my-1 border border-success text-light fa-instagram"></i>
+                                        <input class="px-2 my-1 border border-success text-light" type="url"
+                                            oninvalid="this.setCustomValidity('Please Enter proper url including http or https')"
+                                            oninput="this.setCustomValidity('')" name="instagramLink" id="instagramLink"
+                                            placeholder="Instagram Link" value={{user.insta_link}}>
+                                    </span>
+                                    <span class="d-flex align-items-center  justify-content-center">
+                                        <i
+                                            class="fab twitter  p-2 fs-2 my-1 border border-success text-light fa-twitter"></i>
+                                        <input class="px-2 my-1 border border-success text-light" type="url"
+                                            oninvalid="this.setCustomValidity('Please Enter proper url including http or https')"
+                                            oninput="this.setCustomValidity('')" name="twitterLink" id="twitterLink"
+                                            placeholder="Twitter Link" value={{user.twitter_link}}>
+                                    </span>
+                                    <span class="d-flex align-items-center  justify-content-center">
+                                        <i
+                                            class="fab youtube  p-2 fs-2 my-1 border border-success text-light fa-youtube"></i>
+                                        <input class="px-2 my-1 border border-success text-light" type="url"
+                                            oninvalid="this.setCustomValidity('Please Enter proper url including http or https')"
+                                            oninput="this.setCustomValidity('')" name="youtubeLink" id="youtubeLink"
+                                            placeholder="Youtube Link" value={{user.youtube_link}}>
+                                    </span>
+                                    <span class="d-flex align-items-center  justify-content-center">
+                                        <i class="fas web  p-2 fs-2 my-1 border border-success text-light fa-globe"></i>
+                                        <input class="px-2 my-1 border border-success text-light" type="url"
+                                            oninvalid="this.setCustomValidity('Please Enter proper url including http or https')"
+                                            oninput="this.setCustomValidity('')" name="webLink" id="webLink"
+                                            placeholder="Other Website Link" value={{user.external_link}}>
+                                    </span>
+
+                                    <!-- <div class="input-group mb-3 d-flex">
+
+                                        <i class="fab fa-facebook-f"></i>
+                                        <input type="text" class="form-control px-2 my-1 border border-success text-light" placeholder="facebook link" aria-label="Username" aria-describedby="basic-addon1">
+                                    </div> -->
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gutters my-2">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="text-left">
+                                    <button type="submit" id="submit" name="submit"
+                                        class="btn d-flex align-items-center btn-success edit-btn"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Save">
+                                        <span class="pb-1">SAVE</span>
+                                        <i class="material-icons mx-1">
+                                            save
+                                        </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock profile %}

@@ -1,0 +1,13 @@
+{% extends 'registration/token_send.html' %}
+{% load static %}
+{% block title %}
+<title>Email Alreadyverified successfully!!</title>
+
+{% endblock title %}
+{% block content %}
+    <h2 class='text-center text-light'>Email Already Verified</h2>
+    <p class= 'text-center text-info'> Your email has been Already verified. 
+        <a href="{% url 'login' %}" class='fw-bold text-success text-decoration-none'>Click Here</a> to Login
+    </p>
+{% endblock content %}
+

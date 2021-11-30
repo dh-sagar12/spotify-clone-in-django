@@ -1,0 +1,167 @@
+{% extends 'base.html' %} {% load static %} {% block content%}
+<style>
+  .music-card {
+    background-color: rgba(49, 48, 48, 0.747);
+  }
+
+  .music-card:hover {
+    background-color: rgba(49, 48, 48, 0.432);
+    cursor: pointer;
+  }
+
+  .playBtn {
+    display: none;
+    transition: 1s, ease-out;
+  }
+
+  .music-card:hover .playBtn {
+    display: block;
+    transition: 2s, ease-out;
+  }
+
+  .grid {
+    display: grid;
+  }
+
+  .text-lame-white {
+    color: rgba(235, 235, 235, 0.767) !important;
+  }
+
+  .big-music-card {
+    background-color: rgba(41, 40, 40, 0.575);
+    cursor: pointer;
+    transition: background-color 0.5s ease-out 100ms;
+  }
+
+  .big-music-card:hover {
+    background-color: rgba(49, 49, 49, 0.897);
+    cursor: pointer;
+  }
+
+  .big-music-card:hover .playBtn {
+    display: block;
+    background-color: rgba(49, 49, 49, 0.897);
+    cursor: pointer;
+  }
+
+  .big-music-card:hover .adj-playbtn {
+    bottom: 49px;
+  }
+
+  .adj-playbtn {
+    float: right;
+    position: relative;
+    z-index: 2;
+    bottom: 32px;
+    right: 12px;
+    transition-property: bottom;
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
+    height: 20px;
+  }
+
+  .seeall:hover {
+    text-decoration: underline;
+  }
+</style>
+<h4 class="my-3 fw-bolder py-1">Good {{time_period}} {{user}}</h4>
+<div class="row mb-4">
+  {% for music in music %}
+  <div class="col-4 p-0 my-2 rounded-3">
+    <div class="mx-1 music-card">
+      <div class="row align-items-center m-0">
+        <div class="col-md-4 m-0 p-0">
+          <img src="{{music.music_cover_photo.url}}" class="img-fluid rounded-start" alt="img" height="80" width="80" />
+        </div>
+        <div class="col-md-5">
+          <h4 class="pb-2 fs-5">{{music.name}}</h4>
+        </div>
+        <div class="col-md-3">
+          <a class="btn-floating btn-med waves-effect waves-light green playBtn" js-data="{{music.music_file.url}}"
+            aria-label="play" artist-name="{{music.artist}}" music-name="{{music.name}}"
+            music-img=" {{music.music_cover_photo.url}}">
+            <i class="material-icons">play_arrow</i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="
+    new-release
+    mt-5
+    d-flex
+    justify-content-between
+    align-items-center
+    pe-3
+  ">
+  <div class="">
+    <h5 class="my-1 fw-bold">New Release For You</h5>
+    <p class="fs-6 text-lame-white">Brand new music from artists you love</p>
+  </div>
+  <div class="mt-3">
+    <p class="fs-6 fw-bold">
+      <a href="#" class="text-lame-white seeall">SEE ALL</a>
+    </p>
+  </div>
+</div>
+
+<div class="row p-0 m-0 align-items-center">
+  {% for newRelease in new_release %}
+  <div class="col-md-3 big justify-content-center align-items-center mb-4 p-0 pe-3">
+    <div class="p-3 big-music-card">
+      <img src="{{newRelease.music_cover_photo.url}}" class="img-fluid rounded-start" alt="img"/>
+      <div class="d-flex adj-playbtn">
+        <a class="btn-floating btn-med waves-effect waves-light green playBtn" js-data="{{newRelease.music_file.url}}"
+        aria-label="play" artist-name="{{newRelease.artist}}" music-name="{{newRelease.name}}"
+        music-img=" {{newRelease.music_cover_photo.url}}">
+        <i class="material-icons">play_arrow</i>
+      </a>
+      </div>
+      <h6 class="mt-4 mb-1 fw-bolder fs-5">{{newRelease.name}}</h6>
+      <p>{{newRelease.artist}}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="
+    new-release
+    mt-5
+    d-flex
+    justify-content-between
+    align-items-center
+    pe-3
+  ">
+  <div class="">
+    <h5 class="my-1 fw-bold">Recommended For You</h5>
+    <p class="fs-6 text-lame-white">Inspired By Your Reecent Activities</p>
+  </div>
+  <div class="mt-3">
+    <p class="fs-6 fw-bold">
+      <a href="#" class="text-lame-white seeall">SEE ALL</a>
+    </p>
+  </div>
+</div>
+
+<div class="row p-0 m-0 align-items-center">
+  {% for newRelease in new_release %}
+  <div class="col-md-3 big justify-content-center align-items-center mb-4 p-0 pe-3">
+    <div class="p-3 big-music-card">
+      <img src="{{newRelease.music_cover_photo.url}}" class="img-fluid rounded-start" alt="img"/>
+      <div class="d-flex adj-playbtn">
+        <a class="btn-floating btn-med waves-effect waves-light green playBtn" js-data="{{newRelease.music_file.url}}"
+        aria-label="play" artist-name="{{newRelease.artist}}" music-name="{{newRelease.name}}"
+        music-img=" {{newRelease.music_cover_photo.url}}">
+        <i class="material-icons">play_arrow</i>
+      </a>
+      </div>
+      <h6 class="mt-4 mb-1 fw-bolder fs-5">{{newRelease.name}}</h6>
+      <p>{{newRelease.artist}}</p>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}

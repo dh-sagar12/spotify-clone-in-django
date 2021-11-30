@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+	{% block css %}
+
+		<style>
+			body {
+				color: #101011;
+				background: #070809;
+			}
+
+			.account-settings .user-profile {
+				margin: 0 0 1rem 0;
+				padding-bottom: 1rem;
+				text-align: center;
+			}
+
+			.account-settings .user-profile .user-avatar {
+				margin: 0 0 1rem 0;
+			}
+
+			.account-settings .user-profile .user-avatar img {
+				width: 90px;
+				height: 90px;
+				-webkit-border-radius: 100px;
+				-moz-border-radius: 100px;
+				border-radius: 100px;
+			}
+
+			.account-settings .user-profile h5.full-name {
+				margin: 0 0 0.5rem 0;
+			}
+
+			.account-settings .user-profile h6.user-name {
+				margin: 0;
+				font-size: 0.8rem;
+				font-weight: 400;
+				color: #bcd0f7;
+			}
+
+			.account-settings .about {
+				margin: 1rem 0 0 0;
+				font-size: 0.8rem;
+				text-align: center;
+			}
+
+			.card {
+				background: #2d2e33;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				border: 0;
+				margin-bottom: 1rem;
+			}
+
+			.form-control {
+				border: 1px solid #5b5e68;
+				-webkit-border-radius: 2px;
+				-moz-border-radius: 2px;
+				border-radius: 2px;
+				font-size: .825rem;
+				background: #1d1f24;
+				color: #bcd0f7;
+			}
+
+			.form-control:focus {
+				background: #1d1f24;
+			}
+
+			.social-icons {
+				margin-top: 12px;
+			}
+
+			.edit-btn:focus {
+				border: none !important;
+				outline: none !important;
+				box-shadow: none !important
+			}
+		</style>
+	{% endblock css %}
+
+	{% block profile %}			
+		<div class="container">
+			<div class="row gutters">
+				<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+					<div class="card h-100">
+						<div class="card-body">
+							<div class="account-settings">
+								<div class="user-profile">
+									<div class="user-avatar">
+										{% if getuser.avatar %}
+											<img src="{{getuser.avatar.url}}" alt="{{getuser.first_name}}">
+										{% else %}
+											<img src="https://picsum.photos/90" alt="">
+										{% endif %}
+									</div>
+									<div class='d-flex justify-content-center align-items-center '>
+										<h5 class="full-name">{{getuser.first_name}} {{getuser.last_name}}</h5>
+										{% if getuser.is_verify %}
+											<svg width="15" height="15" class="ms-1 mb-1">
+												<use href="{% static 'account/images/twitter-verified-badge.svg' %}#verifybadge"></use>
+											</svg>
+										{% endif %}
+									</div>
+									<h6 class="user-name">{{getuser.username}}</h6>
+									<div class="social-icons ">
+										{% if getuser.insta_link %}
+										<a href="{{getuser.insta_link}}" class='text-muted' target='_blank'><i
+												class="fab me-1 fa-instagram"></i></a>
+										{% endif %}
+
+										{% if getuser.twitter_link %}
+										<a href="{{getuser.twitter_link}}" class='text-muted' target='_blank'><i
+												class="fab me-1 fa-twitter"></i></a>
+
+										{% endif %}
+
+										{% if getuser.facebook_link %}
+										<a href="{{getuser.facebook_link}}" class='text-muted' target='_blank'><i
+												class="fab me-1 fa-facebook"></i></a>
+										{% endif %}
+
+										{% if getuser.youtube_link %}
+										<a href="{{getuser.youtube_link}}" class='text-muted' target='_blank'><i
+												class="fab me-1 fa-youtube"></i></a>
+										{% endif %}
+
+										{% if getuser.external_link %}
+										<a href="{{getuser.external_link}}" class='text-muted' target='_blank'><i
+												class="fas me-1 fa-link"></i></a>
+										{% endif %}
+									</div>
+								</div>
+								<div class="about">
+									{% if getuser.about %}
+									<h5 class="mb-2 text-light">About</h5>
+									<p>{{getuser.about}}</p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+					<div class="card h-100">
+						<div class="card-body">
+							<div class="">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+									<h6 class="mb-3 text-light">Personal Details</h6>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+									{% if getuser.first_name %}
+										<div class="form-group">
+											<label for="fullName">First Name</label>
+											<p class="p-2 my-1 border border-success "> {{getuser.first_name}}</p>
+										</div>
+									{% endif %}
+								</div>
+
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+
+									{% if getuser.last_name %}
+										<div class="form-group">
+											<label for="fullName">Last Name</label>
+											<p class="p-2 my-1 border border-success "> {{getuser.last_name}}</p>
+										</div>
+									{% endif %}
+
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								{% if getuser.email %}
+									<div class="form-group">
+										<label for="eMail">Email</label>
+										<p class="p-2 my-1 border border-success "> {{getuser.email}}</p>
+									</div>
+								{% endif %}
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								{% if getuser.date_of_birth %}
+									<div class="form-group">
+										<label for="phone">Date of Birth</label>
+										<p class="p-2 my-1 border border-success "> {{getuser.date_of_birth}}</p>
+									</div>
+								{% endif %}
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								{% if getuser.country %}
+									<div class="form-group">
+										<label for="Street">Country</label>
+										<p class="p-2 my-1 border border-success "> {{getuser.country}}</p>
+									</div>
+								{% endif %}
+								</div>
+							</div>
+							<div class="row gutters my-2">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+									<div class="text-left">
+									{% if request.user.username ==  getuser.username %}
+									
+										<a href={%url 'editProfile' %} class="btn btn-success edit-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit your profile">
+											<i class="material-icons">
+												edit
+											</i>
+										</a>
+									{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock profile %}
+
+
+{% endblock content %}

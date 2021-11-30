@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<style>
+	body {
+		color: #101011;
+		background: #070809;
+	}
+
+	.account-settings .user-profile {
+		margin: 0 0 1rem 0;
+		padding-bottom: 1rem;
+		text-align: center;
+	}
+
+	.account-settings .user-profile .user-avatar {
+		margin: 0 0 1rem 0;
+	}
+
+	.account-settings .user-profile .user-avatar img {
+		width: 90px;
+		height: 90px;
+		-webkit-border-radius: 100px;
+		-moz-border-radius: 100px;
+		border-radius: 100px;
+	}
+
+	.account-settings .user-profile h5.full-name {
+		margin: 0 0 0.5rem 0;
+	}
+
+	.account-settings .user-profile h6.user-name {
+		margin: 0;
+		font-size: 0.8rem;
+		font-weight: 400;
+		color: #bcd0f7;
+	}
+
+	.account-settings .about {
+		margin: 1rem 0 0 0;
+		font-size: 0.8rem;
+		text-align: center;
+	}
+
+	.card {
+		background: #2d2e33;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		border: 0;
+		margin-bottom: 1rem;
+	}
+
+	.form-control {
+		border: 1px solid #5b5e68;
+		-webkit-border-radius: 2px;
+		-moz-border-radius: 2px;
+		border-radius: 2px;
+		font-size: .825rem;
+		background: #1d1f24;
+		color: #bcd0f7;
+	}
+
+	.form-control:focus {
+		background: #1d1f24;
+	}
+
+	.social-icons {
+		margin-top: 12px;
+	}
+    .helptext{
+        font-size: 0.75rem!important
+    }
+
+	.edit-btn:focus {
+		border: none !important;
+		outline: none !important;
+		box-shadow: none !important
+	}
+</style>
+
+<div class="container">
+	<div class="row gutters">
+		<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+			<div class="card h-100">
+				<div class="card-body">
+                {% if message %}
+                    <h1 class='text-center'>{{message.title}}</h1>
+                    <p class='text-center text-info fs-4'>{{message.message}}</p>
+                    <div class="d-flex justify-content-center">
+                        <a class=" btn green waves-effect waves-light ">BECOME AN ARTIST</a>
+                    </div>
+                   
+                {% else %}
+                    <form action="{% url 'addNewSong' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h2 class="mb-3 text-light text-center">Upload your Music</h2>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 my-1">
+                                    <div class="form-group">
+                                        <label class="text-white fs-6" for="fullName" >Name:</label>
+                                        <input type='text' name='name' class=" fs-5 text-white px-2 my-1 border border-success " required>
+                                    </div>
+                            </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 my-1">
+                                
+                                    <div class="form-group">
+                                        <label class="text-white fs-6 m-0 p-0" for="fullName" >Featuring Artists: </label>
+                                        <p class='text-info helptext p-0 m-0'>Seperate with comma(,) for multiple featuring artists</p>
+                                        <input type='text' name='artist' class=" fs-5 text-white px-2 mb-1 border border-success " required>
+                                    </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 my-1">
+                            
+                                <div class="form-group">
+                                    <label class="text-white fs-6" for="eMail">Genre: </label>
+                                    <input type:'text' name='genre' class=" fs-5 text-white px-2 my-1 border border-success " required>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 my-1">
+                            
+                                <div class="form-group">
+                                    <label class="text-white fs-6" for="phone">Music File: </label>
+                                    <input type='file' name='musicFile' class="fs-5 text-white my-1 border border-success " accept="audio/*" required> 
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 my-1">
+                                <div class="form-group">
+                                    <label class="text-white fs-6" for="Street">Cover Image: </label>
+                                    <input type='file' name='imageFile' class="fs-5 text-white  my-1 border border-success " accept="image/*" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gutters my-2">
+							{% if success %}
+								<p class='text-center text-success'>{{success}}</p>
+							{% endif %}
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="text-left">
+                                    <button type="submit" id="submit" name="submit" class="btn d-flex align-items-center btn-success edit-btn"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Upload your song ">
+                                        <span class="pb-1">UPLOAD</span>
+                                        <i class="material-icons">
+                                            upload
+                                        </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
