@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     GENDER_FEMALE = 1
     GENDER_OTHER = -1
     GENDER_CHOICES = [(GENDER_MALE, 'Male'), (GENDER_FEMALE, 'Female'), (GENDER_OTHER, 'Other')]
-    gender = models.IntegerField(choices=GENDER_CHOICES, default=None)
+    gender = models.IntegerField(choices=GENDER_CHOICES, null=True)
     
     
     objects = CustomAccountManager()

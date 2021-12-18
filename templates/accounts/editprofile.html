@@ -16,16 +16,20 @@
         -moz-appearance: textfield;
     }
 
-    .avatar-choose {
-        position: absolute;
-        z-index: 2;
-        top: 13%;
-        left: 29%;
-    }
-
     .cameraIcon {
         color: #4dff54 !important;
         cursor: pointer;
+    }
+    textarea{
+       min-height: 100px;
+    }
+    .profile-picture{
+        align-items: flex-end!important;
+        justify-content: flex-end
+    }
+    .avatar-choose{
+        position: relative;
+        right: 20px;
     }
 </style>
 <div class="container">
@@ -33,25 +37,36 @@
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
             <div class="card h-100">
                 <div class="card-body">
-                    <form action="{% url 'editProfile' %}" method="post" enctype="multipart/form-data">
+                    <form action="{% url 'editProfile' %}" method="post" enctype="multipart/form-data" autocomplete="off">
                         {% csrf_token %}
                         <div class="">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="account-settings">
                                     <div class="user-profile">
+                                        <div class='my-2 py-3 text-success '>
+                                                {% if messages %}
+                                                    {% for message in messages %}
+                                                    <span class='p-2 border border-success' id= 'message'>
+                                                        {{message}}
+                                                    </span>
+                                                    {% endfor %}
+                                                {% endif %}
+                                        </div>
                                         <div
-                                            class="user-avatar d-flex align-items-center justify-content-center flex-direction-column">
-                                            {% if user.avatar %}
-                                            <img src="{{user.avatar.url}}" alt="{{user.first_name}}">
-                                            {% else %}
-                                            <img src="https://picsum.photos/90" alt="">
-                                            {% endif %}
-                                            <label class='avatar-choose' for="actual-btn">
-                                                <i class="material-icons cameraIcon">
-                                                    photo_camera
-                                                </i>
-                                            </label>
-                                            <input type="file" name="avatar" id="actual-btn" hidden accept="image/*">
+                                            class="user-avatar flex-direction-column d-flex align-items-center justify-content-center flex-direction-column">
+                                            <div class="profile-picture flex-direction-column d-flex">
+                                                {% if user.avatar %}
+                                                <img src="{{user.avatar.url}}" alt="{{user.first_name}}" id='profile-pic'>
+                                                {% else %}
+                                                <img src="https://picsum.photos/90" alt="">
+                                                {% endif %}
+                                                <label class='avatar-choose' for="actual-btn">
+                                                    <i class="material-icons cameraIcon">
+                                                        photo_camera
+                                                    </i>
+                                                </label>
+                                            </div>
+                                            <input type="file" name="avatar" id="actual-btn"  accept="image/*" hidden onchange="loadFile(event)">
 
                                         </div>
                                     </div>
@@ -64,7 +79,7 @@
 
                                 <div class="form-group">
                                     <label for="fullName">First Name</label>
-                                    <input class="px-2 my-1 border border-success text-light" value={{user.first_name}}>
+                                    <input class="px-2 my-1 border border-success text-light"  name="firstName" value={{user.first_name}}>
                                 </div>
                             </div>
 
@@ -72,25 +87,31 @@
 
                                 <div class="form-group">
                                     <label for="fullName">Last Name</label>
-                                    <input class="px-2 my-1 border border-success text-light" value={{user.last_name}}>
+                                    <input class="px-2 my-1 border border-success text-light" name="lastName" value={{user.last_name}}>
                                 </div>
 
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="eMail">Email</label>
-                                    <input class="px-2 my-1 border border-success text-light" value={{user.email}}>
+                                    <input class="px-2 my-1 border border-success text-light" name='email' value={{user.email}}>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="eMail">About</label>
+                                    <textarea rows="4" name='about' class="px-2 my-1 border border-success text-light" name='email' >{{user.about}}</textarea>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Date of Birth</label>
                                     <span class='d-flex'>
-                                        <input type='number' class="px-2  mx-1 my-1 border border-success text-light"
+                                        <input type='number' name='birthDay' class="px-2  mx-1 my-1 border border-success text-light"
                                             min='1' max='31' value={{user.date_of_birth.day}}>
-                                        <input type='number' class="px-2  mx-1 my-1 border border-success text-light"
+                                        <input type='number' name='birthMonth' class="px-2  mx-1 my-1 border border-success text-light"
                                             min='1' max='12' value={{user.date_of_birth.month}}>
-                                        <input type='number' class="px-2  mx-1 my-1 border border-success text-light"
+                                        <input type='number'name='birthYear'  class="px-2  mx-1 my-1 border border-success text-light"
                                             min='1900' max='2020' value={{user.date_of_birth.year}}>
                                     </span>
                                 </div>
@@ -168,5 +189,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    var loadFile = function(event) {
+        let profile = document.getElementById('profile-pic')
+        profile.src = URL.createObjectURL(event.target.files[0]);
+        profile.onload = function() {
+          URL.revokeObjectURL(profile.src) // free memory
+        }
+      };
+
+    
+
+    setTimeout(() => {
+        $('#message').addClass('d-none')
+    }, 2000);
+</script>
 
 {% endblock profile %}

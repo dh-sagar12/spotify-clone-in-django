@@ -97,7 +97,7 @@ def success(request):
 
 def send_verification_mail(email, authentication_key, first_name):
     subject = 'Verify your email before logging in to songIT'
-    message = f'Hi {first_name}. Thank you for joining songIT community. please click the link to verify yourself http://http://127.0.0.1:8000/auth/verify/{authentication_key} '
+    message = f'Hi {first_name}. Thank you for joining songIT community.\n please click the link to verify yourself http://http://127.0.0.1:8000/auth/verify/{authentication_key} '
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject, message, email_from, recipient_list )
